@@ -56,6 +56,7 @@ public interface Resource extends InputStreamSource {
 	 * <p>This method performs a definitive existence check, whereas the
 	 * existence of a {@code Resource} handle only guarantees a valid
 	 * descriptor handle.
+	 * 资源是否存在
 	 */
 	boolean exists();
 
@@ -69,6 +70,7 @@ public interface Resource extends InputStreamSource {
 	 * that the resource content cannot be read.
 	 * @see #getInputStream()
 	 * @see #exists()
+	 * 资源是否可读
 	 */
 	default boolean isReadable() {
 		return exists();
@@ -79,6 +81,7 @@ public interface Resource extends InputStreamSource {
 	 * If {@code true}, the InputStream cannot be read multiple times,
 	 * and must be read and closed to avoid resource leaks.
 	 * <p>Will be {@code false} for typical resource descriptors.
+	 * 资源是否已经被一个stream流打开
 	 */
 	default boolean isOpen() {
 		return false;
@@ -91,6 +94,7 @@ public interface Resource extends InputStreamSource {
 	 * <p>This is conservatively {@code false} by default.
 	 * @since 5.0
 	 * @see #getFile()
+	 * 确定当前资源是否在文件系统中是一个文件
 	 */
 	default boolean isFile() {
 		return false;
@@ -100,6 +104,8 @@ public interface Resource extends InputStreamSource {
 	 * Return a URL handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URL,
 	 * i.e. if the resource is not available as descriptor
+	 * 返回资源的url句柄
+	 * 如果当前资源无法被处理成一个url，就抛出IOException异常
 	 */
 	URL getURL() throws IOException;
 
@@ -108,6 +114,7 @@ public interface Resource extends InputStreamSource {
 	 * @throws IOException if the resource cannot be resolved as URI,
 	 * i.e. if the resource is not available as descriptor
 	 * @since 2.5
+	 * 返回资源的uri句柄
 	 */
 	URI getURI() throws IOException;
 
@@ -117,6 +124,7 @@ public interface Resource extends InputStreamSource {
 	 * absolute file path, i.e. if the resource is not available in a file system
 	 * @throws IOException in case of general resolution/reading failures
 	 * @see #getInputStream()
+	 * 返回资源file的句柄
 	 */
 	File getFile() throws IOException;
 
@@ -139,6 +147,7 @@ public interface Resource extends InputStreamSource {
 	 * Determine the content length for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)
+	 * 资源内容长度
 	 */
 	long contentLength() throws IOException;
 

@@ -186,9 +186,11 @@ public abstract class AbstractResource implements Resource {
 	 * This implementation checks the timestamp of the underlying File,
 	 * if available.
 	 * @see #getFileForLastModifiedCheck()
+	 * 获取资源最后的修改时间
 	 */
 	@Override
 	public long lastModified() throws IOException {
+		// 此接口由子类具体实现
 		File fileToCheck = getFileForLastModifiedCheck();
 		long lastModified = fileToCheck.lastModified();
 		if (lastModified == 0L && !fileToCheck.exists()) {

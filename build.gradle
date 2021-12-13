@@ -22,6 +22,8 @@ ext {
 	}
 }
 
+
+
 configure(allprojects) { project ->
 	apply plugin: "io.spring.dependency-management"
 
@@ -290,7 +292,11 @@ configure(allprojects) { project ->
 			cacheChangingModulesFor 0, "seconds"
 		}
 		repositories {
+			mavenLocal()
 			mavenCentral()
+			maven{
+				allowInsecureProtocol = true
+				url 'http://maven.aliyun.com/nexus/content/groups/public/'}
 			maven { url "https://repo.spring.io/libs-spring-framework-build" }
 		}
 	}
