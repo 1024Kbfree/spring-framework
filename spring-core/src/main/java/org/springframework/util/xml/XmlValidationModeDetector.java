@@ -91,17 +91,22 @@ public class XmlValidationModeDetector {
 	public int detectValidationMode(InputStream inputStream) throws IOException {
 		// Peek into the file to look for DOCTYPE.
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+			// 是否为DTD校验模式
 			boolean isDtdValidated = false;
 			String content;
+			// 逐行读取xml文件中的数据
 			while ((content = reader.readLine()) != null) {
 				content = consumeCommentTokens(content);
+				// 若为注释则跳过
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
+				// 包含 DOCTYPE 为 DTD 模式
 				if (hasDoctype(content)) {
 					isDtdValidated = true;
 					break;
 				}
+				// hasOpeningTag 方法会校验，如果这一行有 < ，并且 < 后面跟着的是字母，则返回 true
 				if (hasOpeningTag(content)) {
 					// End of meaningful data...
 					break;
@@ -112,6 +117,7 @@ public class XmlValidationModeDetector {
 		catch (CharConversionException ex) {
 			// Choked on some character encoding...
 			// Leave the decision up to the caller.
+			// 返回 VALIDATION_AUTO 模式
 			return VALIDATION_AUTO;
 		}
 	}
@@ -145,7 +151,9 @@ public class XmlValidationModeDetector {
 	 */
 	@Nullable
 	private String consumeCommentTokens(String line) {
+		// 是否包含注释的标记，如果包含会返回非-1,不包含返回-1
 		int indexOfStartComment = line.indexOf(START_COMMENT);
+		// 如果非注释，则返回这一行数据
 		if (indexOfStartComment == -1 && !line.contains(END_COMMENT)) {
 			return line;
 		}
@@ -153,6 +161,7 @@ public class XmlValidationModeDetector {
 		String result = "";
 		String currLine = line;
 		if (indexOfStartComment >= 0) {
+			// 提取出注释
 			result = line.substring(0, indexOfStartComment);
 			currLine = line.substring(indexOfStartComment);
 		}
