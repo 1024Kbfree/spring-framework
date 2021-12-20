@@ -521,9 +521,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
+		// 创建BeandefinitionDocumentReader对象
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+		// 获取已经注册的beanDefinitions数量
 		int countBefore = getRegistry().getBeanDefinitionCount();
+		// 创建XmlReaderContext对象
+		// 注册BeanDefinition
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		// 计算新注册的BeanDefinitionDoucumentReader对象数量
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 
