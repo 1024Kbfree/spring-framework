@@ -1466,6 +1466,7 @@ public class BeanDefinitionParserDelegate {
 		BeanDefinitionHolder finalDefinition = originalDef;
 
 		// Decorate based on custom attributes first.
+		// 对自定义标签进行装饰，调用方法decorateIfRequired
 		NamedNodeMap attributes = ele.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Node node = attributes.item(i);
@@ -1493,11 +1494,14 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public BeanDefinitionHolder decorateIfRequired(
 			Node node, BeanDefinitionHolder originalDef, @Nullable BeanDefinition containingBd) {
-
+		// 获取标签的命名空间
 		String namespaceUri = getNamespaceURI(node);
+		// 如果命名空间非空且不是默认命名空间
 		if (namespaceUri != null && !isDefaultNamespace(namespaceUri)) {
+			// 获取相应的命名空间处理器
 			NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
 			if (handler != null) {
+				// 进行装饰
 				BeanDefinitionHolder decorated =
 						handler.decorate(node, originalDef, new ParserContext(this.readerContext, this, containingBd));
 				if (decorated != null) {
